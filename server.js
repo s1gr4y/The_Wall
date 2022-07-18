@@ -46,10 +46,10 @@ app.post("/send", function(req, res) {
         }
     }
     //res.status(200).send({text: text_value});
-    console.log("msgs");
-    for (i = 0; i < messageHistory.length; i++) {
-        console.log(i + ' ' + messageHistory[i].text);
-    }
+    //console.log("msgs");
+    //for (i = 0; i < messageHistory.length; i++) {
+    //    console.log(i + ' ' + messageHistory[i].text);
+    //}
     res.json({'status': 200});
 });
 
@@ -62,6 +62,7 @@ app.post("/update", function(req, res) {
 app.use('/', function(req, res) {
     //console.log(req.method);
     res.sendFile(path.join(__dirname+'/express/index.html'));   //res.sendFile(path.join(__dirname+'/express/index.html'));
+    connectionCount++;
     //res.json("user_"+connectionCount);
     console.log("Received Request!");
 });
