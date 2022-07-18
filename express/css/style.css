@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS DOC */
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color:#1C1C1C;
+    font-family: 'Roboto Mono', monospace;
+    /*font-size: small;*/
+    /*font-family: Cambria, Robot Mono, serif; */
+}
+
+.container {
+    font-family: 'Roboto Mono', monospace;
+    
+    position: absolute;
+    top: 15%; /* 10-20% seems good */
+    width: 100%;
+    text-align: center;
+    color: floralwhite;
+}
+
+.star {
+	width: 10px;
+	height: 10px;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	background-color: white;
+}
+
+.text_block {
+    margin: auto;
+    text-align: left;
+    height: 400px;
+    width: 800px;
+    overflow: auto;
+    border:4px solid grey;
+    padding:1%;
+}
+
+#block p {
+    margin: 0px;
+    font-size: 12px;
+}
+
+input[type=text] {
+      width: 800px;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+}
