@@ -1,13 +1,20 @@
 {
-    "name": "Wall server",
-    "version": "1.0.0",
-    "description": "",
-    "scripts": {
-        "start": "node server.js"
-    },
-    "dependencies": {
-        "express": "^4.17.1",
-        "fetch": "^1.1.0",
-        "node-fetch": "^3.2.8"
-    }
+  "name": "the_wall",
+  "version": "1.0.0",
+  "description": "A basic BBS-like server",
+  "dependencies": {
+    "express": "^4.18.1",
+    "body-parser": "^1.20.0"
+  },
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Boris-Russanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Boris-Russanov/The_Wall/issues"
+  },
+  "homepage": "https://github.com/Boris-Russanov/The_Wall#readme"
 }
