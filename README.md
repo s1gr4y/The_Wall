@@ -31,12 +31,12 @@ If done through port forwarding, you can access the site through http://IP:3000 
 |-README_imgs/
 |-express/
 	|-css/
-		|-style.css	//style for index.html
+		|-style.css		//style for index.html
 	|-scripts/
-		|-util.js	//javascript to send/recieve input to/from server
-	|-index.html	//main page for site
-|-package.json		//dependencies for the server
-|-server.js			//server entrypoint, handles site requests
+		|-util.js		//javascript to send/recieve input to/from server
+	|-index.html		//main page for site
+|-package.json			//dependencies for the server
+|-server.js				//server entrypoint, handles site requests
 |-README.md
 ```
 

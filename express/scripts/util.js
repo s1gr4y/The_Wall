@@ -11,7 +11,7 @@ function AddLine(text) {
 	let node = document.createElement("p");
 	//node.id = "";
 	node.innerText = text;
-    element.appendChild(node);
+	element.appendChild(node);
 }
 
 function RemoveAll() {
