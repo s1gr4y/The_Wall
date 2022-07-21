@@ -4,12 +4,15 @@ console.log("Nice too see you here...");
 //vars for msg history, currently two since we might change system later.
 let serverHistory = [];
 let messageHistory = [];
+let userId = -1;
+let userNamePrepend = "";
 
 //helper functions for clearing and adding to board.
 function AddLine(text) {
 	let element = document.getElementById("block");
 	let node = document.createElement("p");
 	//node.id = "";
+	//console.log("adding: " + text);
 	node.innerText = text;
 	element.appendChild(node);
 }
@@ -23,6 +26,21 @@ function RefreshBoard() {
 	for (let i = 0; i < serverHistory.length; i++) {
 		AddLine(serverHistory[i].text);
 	}
+}
+
+function requestId() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST', '/id');
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			let data = JSON.parse(xhr.responseText);
+			//console.log(data);
+			userId = data;
+			userNamePrepend = "user" + userId + ": ";
+			document.getElementById('user_inp').setAttribute('maxlength', 83 - userNamePrepend.length);
+		}
+	};
+	xhr.send(200);
 }
 
 //Main funcitonality below for getting/sending msgs.
@@ -43,17 +61,30 @@ function GetAndResolveServerMsgList() {
 				}
 			}
 			*/
-			messageHistory = serverHistory;
-			RefreshBoard();
+			for (let i = 0; i < serverHistory.length; i++) {
+				if (messageHistory[i] == undefined || messageHistory[i].text !== serverHistory[i].text) {
+					messageHistory = serverHistory;
+					RefreshBoard();
+					break;
+				}
+			}
 			//for (let i = 0; i < messageHistory.length; i++) {
 			//	console.log("printing: " + messageHistory[i].text);
 			//}
 			//console.log("done sending");
 		}
 	};
+	xhr.timeout = 10000; // Set timeout to 5 sec until refresh site
+	xhr.ontimeout = function () {
+		//console.log("refreshing");
+		location.reload();
+	};
 	//xhr.open('POST', '/update');
 	xhr.send(200);
 }
+
+//end function defs
+requestId();
 
 //event listener to send msg to server then get new logs back.
 let myTextBox = document.getElementById('user_inp');
@@ -61,7 +92,13 @@ myTextBox.addEventListener('keypress', function(key) {	//has passed in key so we
 	if (key.keyCode == 13) {	//keyCode for enter
 		event.preventDefault();	//IMPORTATNT LINE: used so we don't redirect to page we request.
 		//console.log(myTextBox.value);
-		let text_val = {'text': myTextBox.value};
+		let text_refactor = userNamePrepend + myTextBox.value;
+		//text_refactor.replace(/(\r\n|\n|\r)/gm, '');
+		let text_val = {'text': text_refactor};	//'user' + userId + ': ' + myTextBox.value
+		let raw_val = myTextBox.value;
+		if (raw_val.length <= 0) {
+			return;
+		}
 		
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', '/send');

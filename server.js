@@ -44,7 +44,7 @@ app.post("/send", function(req, res) {
     text_value.number = 'msgNumber:'+counter++;
     //console.log("got: " + text_value.text);
     //console.log(text_value.text.length);
-    if (text_value.text.length != 0) {
+    if (text_value.text.length != 0) {  //no need for check anymore...
         messageHistory.push(text_value);
         
         //this is for rate limiting by shifting history back, similar to queue of msgs.
@@ -59,14 +59,25 @@ app.post("/send", function(req, res) {
     //for (i = 0; i < messageHistory.length; i++) {
     //    console.log(i + ' ' + messageHistory[i].text);
     //}
-    res.json({'status': 200});
+    //res.json({'status': 200});
+    res.status(200);
 });
+
+//order matters for what gets resolved first for post, esp when getting id, maybe not unsure
 
 app.post("/update", function(req, res) {
     //console.log("update post");
     //console.log("sent back: " + JSON.stringify(messageHistory));
     res.json(messageHistory);   //JSON.stringify(messageHistory)
+    res.status(200);
 });
+
+app.post("/id", function(req, res) {
+    //console.log("sending id: " + connectionCount);
+    res.json(connectionCount);   //JSON.stringify(messageHistory)
+    res.status(200);
+});
+
 //*/
 
 //when site is reloaded or visited
