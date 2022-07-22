@@ -35,11 +35,13 @@ server.listen(port, () => {
 });
 */
 
-//I believe order matters here
+//I believe order matters here, yep need id first or it will halt after a few msgs for some reason, unsure still needs more testing
+
+
 ///*
 //resolve msg sent from user.
 app.post("/send", function(req, res) {
-    //console.log("sent post");
+    console.log("sent post");
     let text_value = req.body;
     text_value.number = 'msgNumber:'+counter++;
     //console.log("got: " + text_value.text);
@@ -59,23 +61,23 @@ app.post("/send", function(req, res) {
     //for (i = 0; i < messageHistory.length; i++) {
     //    console.log(i + ' ' + messageHistory[i].text);
     //}
-    //res.json({'status': 200});
-    res.status(200);
+    res.json({'status': 200});
+    //res.status(200);
 });
 
 //order matters for what gets resolved first for post, esp when getting id, maybe not unsure
 
 app.post("/update", function(req, res) {
-    //console.log("update post");
+    console.log("update post");
     //console.log("sent back: " + JSON.stringify(messageHistory));
     res.json(messageHistory);   //JSON.stringify(messageHistory)
-    res.status(200);
+    //res.status(200);
 });
 
 app.post("/id", function(req, res) {
-    //console.log("sending id: " + connectionCount);
+    console.log("sending id: " + connectionCount);
     res.json(connectionCount);   //JSON.stringify(messageHistory)
-    res.status(200);
+    //res.status(200);
 });
 
 //*/
@@ -83,7 +85,7 @@ app.post("/id", function(req, res) {
 //when site is reloaded or visited
 app.use('/', function(req, res) {
     //console.log(req.method);
-    //console.log("Received Request!");
+    console.log("Received Request!");
     res.sendFile(path.join(__dirname+'/express/boardPage.html'));   //page matters here. i.e if we tried to send index.html, then it doesn't go through since it express defaults to it.
     res.status(200);
     connectionCount++;

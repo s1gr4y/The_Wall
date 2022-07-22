@@ -74,11 +74,11 @@ function GetAndResolveServerMsgList() {
 			//console.log("done sending");
 		}
 	};
-	xhr.timeout = 10000; // Set timeout to 5 sec until refresh site
-	xhr.ontimeout = function () {
+	//xhr.timeout = 10000; // Set timeout to 5 sec until refresh site
+	//xhr.ontimeout = function () {
 		//console.log("refreshing");
-		location.reload();
-	};
+		//location.reload();
+	//};
 	//xhr.open('POST', '/update');
 	xhr.send(200);
 }
