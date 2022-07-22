@@ -74,11 +74,11 @@ function GetAndResolveServerMsgList() {
 			//console.log("done sending");
 		}
 	};
-	//xhr.timeout = 10000; // Set timeout to 5 sec until refresh site
-	//xhr.ontimeout = function () {
+	xhr.timeout = 6000; // Set timeout for 6 sec until refresh site, might not be needed since we get ip on first get but might as well have
+	xhr.ontimeout = function () {
 		//console.log("refreshing");
-		//location.reload();
-	//};
+		location.reload();
+	};
 	//xhr.open('POST', '/update');
 	xhr.send(200);
 }
@@ -93,6 +93,7 @@ myTextBox.addEventListener('keypress', function(key) {	//has passed in key so we
 		event.preventDefault();	//IMPORTATNT LINE: used so we don't redirect to page we request.
 		//console.log(myTextBox.value);
 		let text_refactor = userNamePrepend + myTextBox.value;
+		//console.log(text_refactor);
 		//text_refactor.replace(/(\r\n|\n|\r)/gm, '');
 		let text_val = {'text': text_refactor};	//'user' + userId + ': ' + myTextBox.value
 		let raw_val = myTextBox.value;
@@ -122,7 +123,7 @@ let requestInterval = function() {
 	setTimeout(function() {
 		GetAndResolveServerMsgList();
 		requestInterval();	//Initiate next getmsgs call
-	}, 1500);
+	}, 1200);	//1.2 sec delay
 };
 requestInterval();
 //*/
