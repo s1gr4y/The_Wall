@@ -13,7 +13,7 @@ The server utilizes the http protocol, using POST requests to get and send respo
 To have this server connect to the internet, you set up a port forward on your router, associate a domain name to the ip:port of the server, or use local-tunnel or other programs to connect localhost:port to the internet. 
 
 For local-tunnel, have it installed globally by entering this in the terminal: ```npm install -g localtunnel```.
-Afterward, type ```lt --port:####``` into terminal, replacing #### with port desired, and it will give you a link pointing to localhost:####.
+Afterward, type ```lt --port ####``` into terminal, replacing #### with port desired, and it will give you a link pointing to localhost:####.
 
 If done through port forwarding, you can access the site through http://IP:3000 with IP as in the router's public IPv4 address.
 

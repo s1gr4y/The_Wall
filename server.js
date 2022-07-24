@@ -2,10 +2,14 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+//const useragent = require('express-useragent');
 const app = express();
 
 app.use(express.json());
 app.use(express.static("express"));
+app.use(cookieParser());
+//app.use(useragent.express());
 app.use(bodyParser.urlencoded({extended: true}));
 
 //server vars
@@ -22,10 +26,26 @@ if (process.argv[2] && !isNaN(process.argv[2])) {  //first cmd arg passed in to 
     //console.log("port is: " + port);
 }
 
-function inIpList(input_ip) {
-    if (connectList.get(input_ip) == undefined) {
-        connectList.set(input_ip, ++connectionCount);
+function inIpList(req, res) {
+    //console.log(req.cookies);
+    //console.log("ID: " + req.cookies.userID);
+    let options = {
+        maxAge: 1000 * 60 * 60 * 4, //would expire after 4 hours
+        httpOnly: true              //the cookie only accessible by the web server
+    };
+    let val = Date.now();
+    
+    if (req.cookies.userID == undefined) {
+        res.cookie('userID', val, options);
     }
+    
+    let identStr = req.ip + "_" + req.cookies.userID;
+    //console.log("ident str: " + identStr);
+    if (connectList.get(identStr) == undefined) {
+        res.cookie('userID', req.cookies.userID, options); //generate new cookie.
+        connectList.set(identStr, ++connectionCount);
+    }
+    //console.log("count is: " + connectionCount);
 }
 
 /*  //for basic with no express
@@ -86,10 +106,9 @@ app.post("/update", function(req, res) {
 //get id for connected user
 app.post("/id", function(req, res) {
     //console.log("sending id: " + connectionCount);
-    if (connectList.get(req.ip) == undefined) {
-        connectList.set(req.ip, ++connectionCount);
-    }
-    res.json(connectList.get(req.ip));   //JSON.stringify(messageHistory)
+    inIpList(req, res);
+    res.json(connectList.get(req.ip + "_" + req.cookies.userID));   //JSON.stringify(messageHistory)
+    //console.log("sending: " + connectList.get(req.ip + req.cookies.userID));
     //res.status(200);
 });
 
@@ -99,9 +118,11 @@ app.post("/id", function(req, res) {
 app.get('/', function(req, res) {
     //console.log(req.method);
     //console.log("Received Request!");
+    //console.log(req.ip);
+    //console.log(req.useragent);
     res.sendFile(path.join(__dirname+'/express/boardPage.html'));   //page matters here. i.e if we tried to send index.html, then it doesn't go through since it express defaults to it.
     res.status(200);
-    inIpList(req.ip);
+    inIpList(req, res);
     getHitReqCount++;
     //res.json("user_"+connectionCount);
     //console.log("connection count: " + connectionCount);
