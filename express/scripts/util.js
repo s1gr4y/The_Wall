@@ -34,6 +34,24 @@ function requestId() {
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			let data = JSON.parse(xhr.responseText);
+			if (data <= -1) {
+				return;
+			}
+			//console.log(data);
+			userId = data;
+			userNamePrepend = "user" + userId + ": ";
+			document.getElementById('user_inp').setAttribute('maxlength', 83 - userNamePrepend.length);
+		}
+	};
+	xhr.send(200);
+}
+
+function requestIdNoCookie() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST', '/idC');
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			let data = JSON.parse(xhr.responseText);
 			//console.log(data);
 			userId = data;
 			userNamePrepend = "user" + userId + ": ";
@@ -84,7 +102,12 @@ function GetAndResolveServerMsgList() {
 }
 
 //end function defs
+if (!navigator.cookieEnabled) {
+	console.log("calling no cookie vers");
+	requestIdNoCookie();
+}
 requestId();
+
 
 //event listener to send msg to server then get new logs back.
 let myTextBox = document.getElementById('user_inp');
@@ -121,6 +144,12 @@ myTextBox.addEventListener('keypress', function(key) {	//has passed in key so we
 GetAndResolveServerMsgList();
 let requestInterval = function() {
 	setTimeout(function() {
+		if (navigator.cookieEnabled) {
+			if (document.cookie.indexOf('userID=') == -1) {
+				requestId();	//need to get new id
+			}
+		}
+		
 		GetAndResolveServerMsgList();
 		requestInterval();	//Initiate next getmsgs call
 	}, 1200);	//1.2 sec delay
