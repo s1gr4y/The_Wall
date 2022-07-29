@@ -20,7 +20,7 @@ let connectList = new Map();   //list of ips to give unique usernames (but not l
 let connectionCount = 0;
 let getHitReqCount = 0;
 let port = 3000;
-//let serverUpTime = Date.now();
+let serverUpTime = 0;
 
 if (process.argv[2] && !isNaN(process.argv[2])) {  //first cmd arg passed in to change port
     port = process.argv[2];
@@ -142,7 +142,7 @@ app.post("/update", function(req, res) {
 //get id for connected user
 app.post("/id", function(req, res) {
     //console.log("id call");
-    refreshList(connectList);
+    //refreshList(connectList);
     //console.log("called id is: " + req.cookies.userID);
     let cookie = inIpList(req, res);
     //console.log(req.ip + "_" + cookie);
@@ -163,7 +163,7 @@ app.post("/id", function(req, res) {
 //get id for users without cookies
 app.post("/idC", function(req, res) {
     //console.log("idC call");
-    refreshList(connectList);
+    //refreshList(connectList);
     inIpListNoCookie(req, res);
     //console.log("sending: " + connectList.get(req.ip + req.cookies.userID));
     res.status(200);
@@ -198,3 +198,16 @@ const server = http.createServer(app);
 server.listen(port, () => {
     console.log("Listening on http://localhost:" + port);
 });
+
+///* //resets iplist and cookies if expired every 8 sec
+let requestInterval = function() {
+	setTimeout(function() {
+		refreshList(connectList);
+        //for (let [key, value] of connectList.entries()) {
+            //console.log(key + " : " + value.connectNumber);
+        //}
+		requestInterval();
+	}, 8000);	//8 sec delay
+};
+requestInterval();
+//*/
