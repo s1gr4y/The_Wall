@@ -101,12 +101,25 @@ function GetAndResolveServerMsgList() {
 	xhr.send(200);
 }
 
-//end function defs
-if (!navigator.cookieEnabled) {
-	console.log("calling no cookie vers");
-	requestIdNoCookie();
+function NoCookiesSendErr() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', '/404');
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == XMLHttpRequest.DONE) {	//
+			window.location.href = '/404.html'
+		}
+	};
+	xhr.send();
 }
-requestId();
+
+
+//end function defs
+if (navigator.cookieEnabled) {
+	requestId();
+} else {
+	console.log("calling no cookie vers");
+	NoCookiesSendErr();
+}
 
 
 //event listener to send msg to server then get new logs back.
@@ -134,7 +147,6 @@ myTextBox.addEventListener('keypress', function(key) {	//has passed in key so we
 		
 		GetAndResolveServerMsgList();
 		
-		//$.post("http://localhost:3000/ajax",{text: "info"});	//essentially trying to mirror this without jquery
 		myTextBox.value= '';
 	}
 });

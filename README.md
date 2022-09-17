@@ -1,6 +1,7 @@
 # The Wall
 
-A basic (Bulletin Board System) BBS-like server. It was built with NodeJS and the ExpressJS framework.
+A basic (Bulletin Board System) BBS-like server. It was built with NodeJS and the ExpressJS framework.\
+DISCLAIMER: This does not ensure secretive or secure connections as it is HTTP NOT HTTPS. This merely for somewhat anonymous messaging.
 
 # Preview
 

@@ -41,7 +41,7 @@ function inIpList(req, res) {
         return val;
     }
     
-    let identStr = req.ip + "_" + req.cookies.userID;
+    let identStr = req.cookies.userID;	//req.ip + "_" + req.cookies.userID;
     //console.log("finding str: " + identStr);
     if (connectList.get(identStr) == undefined) {   //need to redo this
         //res.cookie('userID', req.cookies.userID, options); //generate new cookie.
@@ -55,7 +55,7 @@ function inIpList(req, res) {
 }
 
 function inIpListNoCookie(req, res) {
-    let identStr = req.ip + "_" + req.cookies.userID;
+    let identStr = req.cookies.userID;	//req.ip + "_" + req.cookies.userID;
     if (connectList.get(identStr) == undefined) {
         let connectInfo = {'connectNumber' : ++connectionCount};
         connectList.set(identStr, connectInfo);
@@ -101,6 +101,11 @@ server.listen(port, () => {
 
 //I believe order matters here, yep need id first or it will halt after a few msgs for some reason, unsure still needs more testing (pretty sure only applies if app.use is done (middleware))
 
+app.get("/404", function(req, res) {
+	//console.log("req 404");
+    //res.send(path.join(__dirname+'/express/404.html'));
+	res.redirect(__dirname+'/express/404.html');
+});
 
 ///*
 //resolve msg sent from user.
@@ -147,10 +152,10 @@ app.post("/id", function(req, res) {
     let cookie = inIpList(req, res);
     //console.log(req.ip + "_" + cookie);
     //console.log(cookie);
-    if (connectList.get(req.ip + "_" + req.cookies.userID) == undefined) {
+    if (connectList.get(req.cookies.userID) == undefined) {	//req.ip + "_" + req.cookies.userID
         res.json(-1);
     } else {
-        res.json(connectList.get(req.ip + "_" + req.cookies.userID).connectNumber);   //JSON.stringify(messageHistory)
+        res.json(connectList.get(req.cookies.userID).connectNumber);   //JSON.stringify(messageHistory)
     }
     //console.log("printing list: ");
     //for (let [key, value] of connectList.entries()) {
@@ -193,7 +198,7 @@ app.get('/', function(req, res) {
     //res.json("user_"+connectionCount);
     //console.log("connection count: " + connectionCount);
 });
-
+	
 const server = http.createServer(app);
 server.listen(port, () => {
     console.log("Listening on http://localhost:" + port);
