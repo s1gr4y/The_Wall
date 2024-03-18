@@ -101,6 +101,11 @@ server.listen(port, () => {
 
 //I believe order matters here, yep need id first or it will halt after a few msgs for some reason, unsure still needs more testing (pretty sure only applies if app.use is done (middleware))
 
+
+// Enable body parsing for POST requests
+app.use(bodyParser.urlencoded({ extended: true }));  
+
+
 app.get("/404", function(req, res) {
 	//console.log("req 404");
     //res.send(path.join(__dirname+'/express/404.html'));
@@ -111,7 +116,9 @@ app.get("/404", function(req, res) {
 //resolve msg sent from user.
 app.post("/send", function(req, res) {
     //console.log("sent post");
-    let text_value = req.body;
+    let text_value={};
+    text_value.text = req.body.user_inp;
+        //console.log("sent post");
     text_value.number = 'msgNumber:'+counter++;
     //console.log("got: " + text_value.text);
     //console.log(text_value.text.length);
@@ -130,7 +137,8 @@ app.post("/send", function(req, res) {
     //for (i = 0; i < messageHistory.length; i++) {
     //    console.log(i + ' ' + messageHistory[i].text);
     //}
-    res.json({'status': 200});
+    //res.json({'status': 200});
+    res.redirect('/');
     //res.status(200);
 });
 
