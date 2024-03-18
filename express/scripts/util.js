@@ -125,6 +125,7 @@ if (navigator.cookieEnabled) {
 //event listener to send msg to server then get new logs back.
 let myTextBox = document.getElementById('user_inp');
 myTextBox.addEventListener('keypress', function(key) {	//has passed in key so we know if it is 'enter'
+		return;
 	if (key.keyCode == 13) {	//keyCode for enter
 		event.preventDefault();	//IMPORTATNT LINE: used so we don't redirect to page we request.
 		//console.log(myTextBox.value);

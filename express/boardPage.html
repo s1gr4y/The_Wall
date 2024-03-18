@@ -13,10 +13,7 @@
 <body>
     <div class="container">
         <div class="container-wrapper">
-            <h2>_______________</h2>
-            <!-- <h2></h2> -->
-            <h1>THE WALL</h1>
-            
+            <h1>THE WALL</h1> 
         </div>
         
         <div class="text_block">
@@ -25,7 +22,12 @@
             </div>
         </div>
         <form action="/send" method="POST">  <!--<form method="get">-->
-            <input type="text" id="user_inp" placeholder='Your message...'; autocomplete="off" maxlength="90"></input>
+            <textarea type="text"  name="user_inp" id="user_inp" 
+            style="width: 800px;height: 100px;"
+            placeholder='Your message...'; autocomplete="off" required
+             ></textarea>
+             <br>
+             <button type="submit" style="font-size: 20px" >submit</button>
         </form> <!--</form> --> <!--onfocus="this.value='';" onBlur="this.value='Name: Your message';"-->
         
     </div>
